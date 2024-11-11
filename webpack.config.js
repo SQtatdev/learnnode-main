@@ -2,8 +2,14 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { fileURLToPath } from 'url';
 
-// Workaround to define __dirname in ESM
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+let name = "Slava";
+
+const response = await fetch('https://rickandmortyapi.com/api/character')
+const data = await response.json();
+const characters = data.results;
+
 
 export default {
     entry: './src/index.js',
@@ -39,16 +45,11 @@ export default {
                 test: /\.njk$/,
                 use: [
                     {
-                        loader: 'html-loader', // Add html-loader to handle HTML processing
-                    },
-                    {
-                        loader: 'nunjucks-webpack-loader',
-                        options: {
-                            searchPaths: [path.resolve(__dirname, 'src', 'templates')], // Path for Nunjucks templates
-                        },
-                    },
-                ],
-            },
+                        loader: 'simple-nunjucks-loader',
+                        options: {}
+                    }
+                ]
+              },
             {
                 test: /\.html$/,
                 use: [
@@ -62,7 +63,11 @@ export default {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.njk', 
-            filename: 'index.html'
+            templateParameters: {
+                name: name,
+                characters
+            }
+
         }),
         new HtmlWebpackPlugin({
             template: './src/about.njk',
