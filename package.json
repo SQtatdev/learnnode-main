@@ -7,7 +7,8 @@
     "build": "webpack --mode production",
     "serve": "webpack server --mode development",
     "start": "npx nodemon --watch webpack.config.js --exec \"npm run serve\"",
-    "build-sass": "sass --load-path=node_modules my-bulma-project.scss my-bulma-project.css"
+    "build-sass": "sass --load-path=node_modules my-bulma-project.scss my-bulma-project.css",
+    "deploy": "npm run build && surge ./dist slavassite.surge.sh"
   },
   "type": "module",
   "keywords": [],
@@ -268,6 +269,7 @@
     "strip-ansi": "^6.0.1",
     "supports-color": "^8.1.1",
     "supports-preserve-symlinks-flag": "^1.0.0",
+    "surge": "^0.24.6",
     "tapable": "^2.2.1",
     "terser": "^5.36.0",
     "terser-webpack-plugin": "^5.3.10",
