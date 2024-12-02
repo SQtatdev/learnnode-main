@@ -6,23 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 let name = "Slava";
 
-export default async () => {
-    const response = await fetch('https://rickandmortyapi.com/api/character?page=21');
-    const data = await response.json();
-    const characters = data.results;
-    const pages = [];
-    characters.forEach(character => {
-        let page = new HtmlWebpackPlugin({
-            template: './src/character.njk',
-            filename: `character_${character.id}.html`,
-            templateParameters: {
-                character,
-            }
-        });
-        pages.push(page);
-    });
-    return {
-
+export default{
         entry: './src/index.js',
         output: {
             filename: 'main.js',
@@ -53,15 +37,6 @@ export default async () => {
                     ],
                 },
                 {
-                    test: /\.njk$/,
-                    use: [
-                        {
-                            loader: 'simple-nunjucks-loader',
-                            options: {}
-                        }
-                    ]
-                },
-                {
                     test: /\.html$/,
                     use: [
                         {
@@ -73,12 +48,7 @@ export default async () => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                template: './src/index.njk',
-                templateParameters: {
-                    name: name,
-                    characters
-                }
-
+                template: './src/index.html',
             }),
             new HtmlWebpackPlugin({
                 template: './src/about.njk',
@@ -87,4 +57,3 @@ export default async () => {
             ...pages
         ],
     };
-};
