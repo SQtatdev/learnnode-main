@@ -1,18 +1,40 @@
 <script setup>
 import {ref} from 'vue';
-let message = ref('Hello Vue!');
-let isReversed = ref(true)
+
+let items = ref(['milk', 'vodka', 'juice', 'snacks', 'chips']);
+let newItem = ref('');
+
+function add(){ 
+    if(newItem.value.trim() !== ''){ // Trim deletes spaces
+        items.value.push(newItem.value.trim());
+    }
+
+    newItem.value = '';
+}
 </script>
 
 <template>
     <div class="conteiner mt-3">
         <div class="content">
-            <h1 v-if="isReversed">{{ message.split('').reverse().join('') }}</h1>
-            <h1 v-else>{{ message }}</h1>
-           
-             <input class="input my-1" v-model="message" > <!-- v-bind:value="message" @input="message=$event.target.value -->
-            <button class="button is-primary" @click="message='Hello Ta23B'" > Click me </button>
-            <button class="button is-primary mx-4" @click="isReversed=!isReversed" > reversse again </button>
+
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input" type="text" placeholder="Wishlist" v-model="newItem" @keypress.enter="add">
+            </div>
+            <div class="control">
+                <button class="button is-primary" @click="add">
+                    Add
+                </button>
+            </div>
+            </div>
+
+        <h1> List </h1>
+        <ul>
+            <li v-for="item in items">{{ item }}</li>
+        </ul>
+
+
+
         </div>
     </div>
 </template>
